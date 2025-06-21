@@ -28,7 +28,7 @@ const Login = (): React.JSX.Element => {
     <div className="grid place-items-center h-[calc(100vh-102px)]">
       <div className=" p-8 rounded-lg shadow-lg w-96 opacity-80 bg-black text-white">
         <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2" htmlFor="email">
               Email{""}
