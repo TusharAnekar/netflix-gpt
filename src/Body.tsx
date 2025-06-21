@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const Body = (): React.JSX.Element => {
   const appRouter = createBrowserRouter([
@@ -18,6 +19,10 @@ const Body = (): React.JSX.Element => {
         {
           path: "login",
           element: <Login />,
+        },
+        {
+          path: "signup",
+          element: <Signup />,
         },
       ],
     },
