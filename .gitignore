@@ -25,3 +25,6 @@ dist-ssr
 
 # Exclude environment files
 .env.*
+
+# Exculede Cache directories
+hosting.ZglzdA.cache
