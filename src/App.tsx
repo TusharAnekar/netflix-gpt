@@ -1,7 +1,6 @@
-import React from "react";
-
 import "./App.css";
+import Body from "./Body";
 
-const App = (): React.JSX.Element => <p>hi</p>;
+const App = (): React.JSX.Element => <Body />;
 
 export default App;
