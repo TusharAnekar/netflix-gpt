@@ -19,4 +19,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// eslint-disable-next-line import-x/prefer-default-export
+export const analytics = getAnalytics(app);
