@@ -1,14 +1,20 @@
+import { useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 import { loginSchema } from "../schemas/auth.schema";
+import { signInUser } from "../services/auth.service";
 
 import type { z } from "zod";
 
 type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const Login = (): React.JSX.Element => {
+  const [signinError, setSigninError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -17,11 +23,31 @@ const Login = (): React.JSX.Element => {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormInputs) => {
-    // Handle login logic here
-    // Example: console.log(data);
-    // eslint-disable-next-line no-console
-    console.log("Login data submitted:", data);
+  const onSubmit = async (data: LoginFormInputs) => {
+    const { email, password } = data;
+
+    try {
+      const user = await signInUser(email, password);
+      // eslint-disable-next-line no-console
+      console.log("User logged in successfully:", user);
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case "auth/invalid-credential":
+            setSigninError("Incorrect credential. Please try again.");
+            break;
+          case "auth/too-many-requests":
+            setSigninError("Too many attempts. Please try again later.");
+            break;
+          default:
+            setSigninError(
+              "An error occurred during sign in. Please try again.",
+            );
+        }
+      } else if (error instanceof Error) {
+        setSigninError(error.message);
+      }
+    }
   };
 
   return (
@@ -75,6 +101,10 @@ const Login = (): React.JSX.Element => {
             Sign In
           </button>
         </form>
+
+        {signinError ? (
+          <p className="text-red-600 text-sm mt-4">{signinError}</p>
+        ) : null}
 
         <p className="text-sm text-center mt-4">
           New to Netflix?{" "}

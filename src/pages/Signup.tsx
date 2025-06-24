@@ -1,14 +1,19 @@
+import { useState } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 import { signupSchema } from "../schemas/auth.schema";
+import { signUpUser } from "../services/auth.service";
 
 import type { z } from "zod";
 
 type SignupFormInputs = z.infer<typeof signupSchema>;
 
 const Signup = (): React.JSX.Element => {
+  const [signupError, setSignupError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -17,10 +22,29 @@ const Signup = (): React.JSX.Element => {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = (data: SignupFormInputs) => {
-    // Handle signup logic here
-    // eslint-disable-next-line no-console
-    console.log("Signup data submitted:", data);
+  const onSubmit = async (data: SignupFormInputs) => {
+    const { email, password } = data;
+
+    try {
+      const user = await signUpUser(email, password);
+      // eslint-disable-next-line no-console
+      console.log("User signed up successfully:", user);
+      // Redirect or show success message
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            setSignupError("This email is already in use.");
+            break;
+          default:
+            setSignupError(
+              "An error occurred during sign up. Please try again.",
+            );
+        }
+      } else if (error instanceof Error) {
+        setSignupError(error.message);
+      }
+    }
   };
 
   return (
@@ -116,6 +140,11 @@ const Signup = (): React.JSX.Element => {
             Sign Up
           </button>
         </form>
+
+        {signupError ? (
+          <p className="text-red-600 text-xs mt-4 text-center">{signupError}</p>
+        ) : null}
+
         <p className="text-sm text-center mt-4">
           Already have an account?{" "}
           <Link className="text-red-600 hover:underline" to="/login">
