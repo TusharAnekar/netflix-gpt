@@ -1,6 +1,12 @@
-import "./App.css";
-import Body from "./Body";
+import { Provider } from "react-redux";
 
-const App = (): React.JSX.Element => <Body />;
+import Body from "./Body";
+import appStore from "./store";
+
+const App = (): React.JSX.Element => (
+  <Provider store={appStore}>
+    <Body />
+  </Provider>
+);
 
 export default App;

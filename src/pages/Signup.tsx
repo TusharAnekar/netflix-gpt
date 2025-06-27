@@ -3,10 +3,12 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
+import { useAppDispatch } from "../app/hooks";
 import { signupSchema } from "../schemas/auth.schema";
 import { signUpUser } from "../services/auth.service";
+import { setUser } from "../store/slices/userSlice";
 
 import type { z } from "zod";
 
@@ -14,6 +16,10 @@ type SignupFormInputs = z.infer<typeof signupSchema>;
 
 const Signup = (): React.JSX.Element => {
   const [signupError, setSignupError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -23,13 +29,18 @@ const Signup = (): React.JSX.Element => {
   });
 
   const onSubmit = async (data: SignupFormInputs) => {
-    const { email, password } = data;
+    const { email, password, fullName } = data;
 
     try {
-      const user = await signUpUser(email, password);
-      // eslint-disable-next-line no-console
-      console.log("User signed up successfully:", user);
-      // Redirect or show success message
+      const user = await signUpUser(email, password, fullName);
+      dispatch(
+        setUser({
+          uid: user.uid,
+          email: user.email ?? "",
+          displayName: user.displayName ?? "",
+        }),
+      );
+      navigate("/browse");
     } catch (error) {
       if (error instanceof FirebaseError) {
         switch (error.code) {
