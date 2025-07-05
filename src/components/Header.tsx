@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import { onAuthStateChanged } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 
-import { useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { NETFLIX_LOGO_URL } from "../constants/brand";
+import { auth } from "../lib/firebase";
 import { signOutUser } from "../services/auth.service";
+import { clearUser, setLoading, setUser } from "../store/slices/userSlice";
 
 const Header = (): React.JSX.Element => {
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
 
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
   const isLoading = useAppSelector((state) => state.user.isLoading);
@@ -15,20 +21,40 @@ const Header = (): React.JSX.Element => {
   const handleLogout = async () => {
     try {
       await signOutUser();
-      navigate("/login");
     } catch (error) {
       navigate("/error", { state: { error } });
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      dispatch(setLoading(true));
+      if (user) {
+        const { uid, email, displayName: userDisplayName } = user;
+        dispatch(
+          setUser({
+            uid,
+            email: email ?? "",
+            displayName: userDisplayName ?? "",
+          }),
+        );
+        navigate("/browse");
+      } else {
+        dispatch(clearUser());
+        navigate("/login");
+      }
+    });
+
+    return () => {
+      unsubscribe();
+      dispatch(setLoading(false));
+    };
+  }, [dispatch, navigate]);
+
   return (
     <header className="flex items-center justify-between p-4 opacity-80 bg-black">
       <Link to="/">
-        <img
-          alt="Netflix"
-          className="h-18 w-auto"
-          src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production/consent/87b6a5c0-0104-4e96-a291-092c11350111/01938dc4-59b3-7bbc-b635-c4131030e85f/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
-        />
+        <img alt="Netflix" className="h-18 w-auto" src={NETFLIX_LOGO_URL} />
       </Link>
 
       {isLoading ? (

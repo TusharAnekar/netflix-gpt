@@ -3,7 +3,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { loginSchema } from "../schemas/auth.schema";
 import { signInUser } from "../services/auth.service";
@@ -14,7 +14,6 @@ type LoginFormInputs = z.infer<typeof loginSchema>;
 
 const Login = (): React.JSX.Element => {
   const [signinError, setSigninError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const {
     register,
@@ -29,7 +28,6 @@ const Login = (): React.JSX.Element => {
 
     try {
       await signInUser(email, password);
-      navigate("/browse");
     } catch (error) {
       if (error instanceof FirebaseError) {
         switch (error.code) {

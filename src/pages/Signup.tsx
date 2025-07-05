@@ -3,7 +3,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useAppDispatch } from "../app/hooks";
 import { signupSchema } from "../schemas/auth.schema";
@@ -16,7 +16,6 @@ type SignupFormInputs = z.infer<typeof signupSchema>;
 
 const Signup = (): React.JSX.Element => {
   const [signupError, setSignupError] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -40,7 +39,6 @@ const Signup = (): React.JSX.Element => {
           displayName: user.displayName ?? "",
         }),
       );
-      navigate("/browse");
     } catch (error) {
       if (error instanceof FirebaseError) {
         switch (error.code) {
