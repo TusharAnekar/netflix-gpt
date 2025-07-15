@@ -1,4 +1,7 @@
-import type { NowPlayingMoviesResponse } from "../types/movie.types";
+import type {
+  FetchMovieVideoByIdResponse,
+  NowPlayingMoviesResponse,
+} from "../types/movie.types";
 
 export const options = {
   method: "GET",
@@ -12,8 +15,19 @@ export const fetchNowPlayingMovies =
   async (): Promise<NowPlayingMoviesResponse> => {
     const response = await fetch(
       `${import.meta.env.VITE_TMDB_BASE_URL}/movie/now_playing?language=en-US&page=1`,
-      options
+      options,
     );
     const data: NowPlayingMoviesResponse = await response.json();
     return data;
   };
+
+export const fetchMovieVideoById = async (
+  movieId: number,
+): Promise<FetchMovieVideoByIdResponse> => {
+  const response = await fetch(
+    `${import.meta.env.VITE_TMDB_BASE_URL}/movie/${movieId}/videos?language=en-US`,
+    options,
+  );
+  const data: FetchMovieVideoByIdResponse = await response.json();
+  return data;
+};

@@ -12,7 +12,6 @@ const Body = (): React.JSX.Element => {
     {
       path: "/",
       element: <MainLayout />,
-      errorElement: <p>Not Found</p>,
       children: [
         {
           index: true,
@@ -31,7 +30,6 @@ const Body = (): React.JSX.Element => {
     {
       path: "browse",
       element: <AuthLayout />,
-      errorElement: <p>Not Found</p>,
       children: [
         {
           index: true,
