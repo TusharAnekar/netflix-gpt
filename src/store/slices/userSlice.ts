@@ -9,7 +9,7 @@ const initialState: UserState = {
   email: "",
   displayName: "",
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
 };
 
 const userSlice = createSlice({
