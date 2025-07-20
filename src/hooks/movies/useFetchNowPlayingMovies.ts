@@ -16,8 +16,10 @@ const useFetchNowPlayingMovies = (): void => {
       try {
         dispatch(setMoviesLoading(true));
         const data = await fetchNowPlayingMovies();
-        dispatch(setMovies(data.results));
-        dispatch(setMoviesLoading(false));
+        if (data.results.length) {
+          dispatch(setMovies(data.results));
+          dispatch(setMoviesLoading(false));
+        }
       } catch (error) {
         if (error instanceof Error) {
           dispatch(setMoviesError(error.message));

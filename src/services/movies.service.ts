@@ -31,3 +31,33 @@ export const fetchMovieVideoById = async (
   const data: FetchMovieVideoByIdResponse = await response.json();
   return data;
 };
+
+export const fetchPopularMovies =
+  async (): Promise<NowPlayingMoviesResponse> => {
+    const response = await fetch(
+      `${import.meta.env.VITE_TMDB_BASE_URL}/movie/popular?language=en-US&page=1`,
+      options,
+    );
+    const data: NowPlayingMoviesResponse = await response.json();
+    return data;
+  };
+
+export const fetchTopRatedMovies =
+  async (): Promise<NowPlayingMoviesResponse> => {
+    const response = await fetch(
+      `${import.meta.env.VITE_TMDB_BASE_URL}/movie/top_rated?language=en-US&page=1`,
+      options,
+    );
+    const data: NowPlayingMoviesResponse = await response.json();
+    return data;
+  };
+
+export const fetchUpcomingMovies =
+  async (): Promise<NowPlayingMoviesResponse> => {
+    const response = await fetch(
+      `${import.meta.env.VITE_TMDB_BASE_URL}/movie/upcoming?language=en-US&page=1`,
+      options,
+    );
+    const data: NowPlayingMoviesResponse = await response.json();
+    return data;
+  };

@@ -7,6 +7,15 @@ const initialState = {
   movieVideoId: null,
   loadingMovieVideo: false,
   errorMovieVideo: null,
+  popularMovies: [],
+  loadingPopularMovies: false,
+  errorPopularMovies: null,
+  loadingTopRatedMovies: false,
+  errorTopRatedMovies: null,
+  topRatedMovies: [],
+  loadingUpcomingMovies: false,
+  errorUpcomingMovies: null,
+  upcomingMovies: [],
 };
 
 const moviesSlice = createSlice({
@@ -37,6 +46,42 @@ const moviesSlice = createSlice({
       ...state,
       errorMovieVideo: action.payload,
     }),
+    setPopularMovies: (state, action) => ({
+      ...state,
+      popularMovies: action.payload,
+    }),
+    setPopularMoviesLoading: (state, action) => ({
+      ...state,
+      loadingPopularMovies: action.payload,
+    }),
+    setPopularMoviesError: (state, action) => ({
+      ...state,
+      errorPopularMovies: action.payload,
+    }),
+    setTopRatedMovies: (state, action) => ({
+      ...state,
+      topRatedMovies: action.payload,
+    }),
+    setTopRatedMoviesLoading: (state, action) => ({
+      ...state,
+      loadingTopRatedMovies: action.payload,
+    }),
+    setTopRatedMoviesError: (state, action) => ({
+      ...state,
+      errorTopRatedMovies: action.payload,
+    }),
+    setUpcomingMovies: (state, action) => ({
+      ...state,
+      upcomingMovies: action.payload,
+    }),
+    setUpcomingMoviesLoading: (state, action) => ({
+      ...state,
+      loadingUpcomingMovies: action.payload,
+    }),
+    setUpcomingMoviesError: (state, action) => ({
+      ...state,
+      errorUpcomingMovies: action.payload,
+    }),
   },
 });
 
@@ -48,4 +93,13 @@ export const {
   setMovieVideoId,
   setMovieVideoError,
   setMovieVideoLoading,
+  setPopularMovies,
+  setPopularMoviesError,
+  setPopularMoviesLoading,
+  setTopRatedMovies,
+  setTopRatedMoviesError,
+  setTopRatedMoviesLoading,
+  setUpcomingMovies,
+  setUpcomingMoviesError,
+  setUpcomingMoviesLoading,
 } = moviesSlice.actions;
