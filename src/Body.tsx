@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import AuthLayout from "./components/AuthLayout";
+import AuthRoute from "./components/AuthRoute";
 import MainLayout from "./components/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Browse from "./pages/Browse";
+import GptSearch from "./pages/GptSearch";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -16,15 +18,27 @@ const Body = (): React.JSX.Element => {
       children: [
         {
           index: true,
-          element: <Home />,
+          element: (
+            <AuthRoute>
+              <Home />
+            </AuthRoute>
+          ),
         },
         {
           path: "login",
-          element: <Login />,
+          element: (
+            <AuthRoute>
+              <Login />
+            </AuthRoute>
+          ),
         },
         {
           path: "signup",
-          element: <Signup />,
+          element: (
+            <AuthRoute>
+              <Signup />
+            </AuthRoute>
+          ),
         },
       ],
     },
@@ -52,7 +66,7 @@ const Body = (): React.JSX.Element => {
       children: [
         {
           index: true,
-          element: <div>GPT Search Page</div>, // Placeholder for GPT Search page
+          element: <GptSearch />, // Placeholder for GPT Search page
         },
       ],
     },
