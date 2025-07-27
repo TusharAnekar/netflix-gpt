@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FirebaseError } from "firebase/app";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { useAppDispatch } from "../app/hooks";
 import { signupSchema } from "../schemas/auth.schema";
@@ -16,6 +16,8 @@ type SignupFormInputs = z.infer<typeof signupSchema>;
 
 const Signup = (): React.JSX.Element => {
   const [signupError, setSignupError] = useState<string | null>(null);
+  const location = useLocation();
+  const passedEmail = location.state.email;
 
   const dispatch = useAppDispatch();
 
@@ -23,6 +25,7 @@ const Signup = (): React.JSX.Element => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<SignupFormInputs>({
     resolver: zodResolver(signupSchema),
   });
@@ -37,7 +40,7 @@ const Signup = (): React.JSX.Element => {
           uid: user.uid,
           email: user.email ?? "",
           displayName: user.displayName ?? "",
-        }),
+        })
       );
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -47,7 +50,7 @@ const Signup = (): React.JSX.Element => {
             break;
           default:
             setSignupError(
-              "An error occurred during sign up. Please try again.",
+              "An error occurred during sign up. Please try again."
             );
         }
       } else if (error instanceof Error) {
@@ -55,6 +58,12 @@ const Signup = (): React.JSX.Element => {
       }
     }
   };
+
+  useEffect(() => {
+    if (passedEmail) {
+      setValue("email", passedEmail);
+    }
+  }, [passedEmail, setValue]);
 
   return (
     <div className="grid place-items-center h-[calc(100vh-102px)]">
