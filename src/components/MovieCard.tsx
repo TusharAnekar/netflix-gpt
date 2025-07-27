@@ -6,12 +6,13 @@ interface MovieCardProps {
   movie: Movie;
 }
 
-const MovieCard = ({ movie }: MovieCardProps): React.JSX.Element => (
-  <img
-    alt={movie.title}
-    className="w-40 h-60 object-cover rounded-lg"
-    src={`${TMDB_IMAGE_BASE_URL}/w500${movie.poster_path}`}
-  />
-);
+const MovieCard = ({ movie }: MovieCardProps): React.JSX.Element | null =>
+  movie.poster_path ? (
+    <img
+      alt={movie.title}
+      className="w-40 h-60 object-cover rounded-lg"
+      src={`${TMDB_IMAGE_BASE_URL}/w500${movie.poster_path}`}
+    />
+  ) : null;
 
 export default MovieCard;
