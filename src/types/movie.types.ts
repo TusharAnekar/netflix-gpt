@@ -43,3 +43,10 @@ export interface FetchMovieVideoByIdResponse {
   id: number;
   results: MovieVideo[];
 }
+
+export interface SearchMovieByTitleResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}

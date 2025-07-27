@@ -1,6 +1,7 @@
 import type {
   FetchMovieVideoByIdResponse,
   NowPlayingMoviesResponse,
+  SearchMovieByTitleResponse,
 } from "../types/movie.types";
 
 export const options = {
@@ -61,3 +62,14 @@ export const fetchUpcomingMovies =
     const data: NowPlayingMoviesResponse = await response.json();
     return data;
   };
+
+export const searchMovieByTitle = async (
+  title: string,
+): Promise<SearchMovieByTitleResponse> => {
+  const response = await fetch(
+    `${import.meta.env.VITE_TMDB_BASE_URL}/search/movie?query=${title}&include_adult=false&language=en-US&page=1`,
+    options,
+  );
+  const data: SearchMovieByTitleResponse = await response.json();
+  return data;
+};

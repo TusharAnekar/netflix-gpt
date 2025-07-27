@@ -16,6 +16,9 @@ const initialState = {
   loadingUpcomingMovies: false,
   errorUpcomingMovies: null,
   upcomingMovies: [],
+  loadingSearchedMovies: false,
+  errorSearchedMovies: null,
+  searchedMovies: [],
 };
 
 const moviesSlice = createSlice({
@@ -82,6 +85,18 @@ const moviesSlice = createSlice({
       ...state,
       errorUpcomingMovies: action.payload,
     }),
+    setLoadingSearchedMovies: (state, action) => ({
+      ...state,
+      loadingSearchedMovies: action.payload,
+    }),
+    setErrorSearchedMovies: (state, action) => ({
+      ...state,
+      errorSearchedMovies: action.payload,
+    }),
+    setSearchedMovies: (state, action) => ({
+      ...state,
+      searchedMovies: action.payload,
+    }),
   },
 });
 
@@ -102,4 +117,7 @@ export const {
   setUpcomingMovies,
   setUpcomingMoviesError,
   setUpcomingMoviesLoading,
+  setLoadingSearchedMovies,
+  setErrorSearchedMovies,
+  setSearchedMovies,
 } = moviesSlice.actions;

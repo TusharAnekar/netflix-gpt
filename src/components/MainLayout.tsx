@@ -5,7 +5,8 @@ import { NETFLIX_BACKGROUND_IMAGE_URL } from "../constants/brand";
 
 const MainLayout = (): React.JSX.Element => (
   <div
-    className={`bg-[url(${NETFLIX_BACKGROUND_IMAGE_URL})] bg-cover bg-center min-h-screen`}
+    className="bg-cover bg-center min-h-screen"
+    style={{ backgroundImage: `url(${NETFLIX_BACKGROUND_IMAGE_URL})` }}
   >
     <Header />
     <Outlet />
