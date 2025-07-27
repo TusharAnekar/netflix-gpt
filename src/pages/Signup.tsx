@@ -40,7 +40,7 @@ const Signup = (): React.JSX.Element => {
           uid: user.uid,
           email: user.email ?? "",
           displayName: user.displayName ?? "",
-        })
+        }),
       );
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -50,7 +50,7 @@ const Signup = (): React.JSX.Element => {
             break;
           default:
             setSignupError(
-              "An error occurred during sign up. Please try again."
+              "An error occurred during sign up. Please try again.",
             );
         }
       } else if (error instanceof Error) {
