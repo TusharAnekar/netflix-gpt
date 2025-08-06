@@ -11,7 +11,7 @@ const MovieCard = ({ movie }: MovieCardProps): React.JSX.Element | null =>
     <img
       alt={movie.title}
       className="w-40 h-60 object-cover rounded-lg"
-      src={`${TMDB_IMAGE_BASE_URL}/w500${movie.poster_path}`}
+      src={`${TMDB_IMAGE_BASE_URL}w500${movie.poster_path}`}
     />
   ) : null;
 
